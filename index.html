@@ -3,40 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JR - Sistema</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>JR - Login Seguro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .login-box h1 {
+            text-align: center;
+            color: #101315;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: #687073;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #101315;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d7d7d7;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #a8a8a8;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-login:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            display: none;
+            background: #ffe5e5;
+            color: #c0392b;
+            padding: 12px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-top: 16px;
+            border-left: 3px solid #e74c3c;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .test-creds {
+            background: #f0f4ff;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #687073;
+            margin-top: 24px;
+            border: 1px solid #e0e8ff;
+        }
+
+        .test-creds strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .test-creds code {
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 11px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #a8a8a8;
+            font-size: 12px;
+        }
+
+        .security-notice {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 12px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #856404;
+            margin-top: 20px;
+        }
+
+        .security-notice strong {
+            color: #856404;
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 30px 20px;
+            }
+
+            .login-box h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div id="loading" style="display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <div style="text-align: center; color: white;">
-            <h1>Cargando JR...</h1>
-            <p>Iniciando sesión automática...</p>
+    <div class="login-container">
+        <div class="login-box">
+            <svg class="login-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="10" y="20" width="80" height="60" rx="8" fill="url(#grad1)"/>
+                <text x="50" y="60" font-size="40" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial Black">JR</text>
+            </svg>
+
+            <h1>JR Sistema</h1>
+            <p class="login-subtitle">Gestión de Usuarios</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" placeholder="Ingresa tu usuario" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" placeholder="Ingresa tu contraseña" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn-login">Iniciar Sesión</button>
+
+                <div id="errorMessage" class="error-message"></div>
+            </form>
+
+            <div class="test-creds">
+                <strong>🔐 Credenciales de Prueba:</strong>
+                <div>
+                    <strong>Admin:</strong><br>
+                    <code>admin</code> / <code>admin123</code>
+                </div>
+                <div style="margin-top: 8px;">
+                    <strong>Cliente:</strong><br>
+                    <code>cliente1</code> / <code>cliente123</code>
+                </div>
+            </div>
+
+            <div class="security-notice">
+                <strong>⚠️ Advertencia de Desarrollo:</strong><br>
+                Este es un sistema de demostración. En producción, implementar HTTPS, bcrypt y autenticación con backend.
+            </div>
+
+            <div class="footer">
+                <p>&copy; 2026 JR Sistema - Gestión de Usuarios</p>
+            </div>
         </div>
     </div>
 
     <script src="js/auth.js"></script>
-    <script>
-        // Auto-login directo como admin
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                const users = auth.users;
-                const adminUser = users.find(u => u.role === 'admin');
-                
-                if (adminUser) {
-                    const sessionData = {
-                        userId: adminUser.id,
-                        username: adminUser.username,
-                        role: adminUser.role,
-                        name: adminUser.name,
-                        email: adminUser.email,
-                        loginTime: new Date().toISOString(),
-                        token: auth.generateToken()
-                    };
-                    localStorage.setItem('jr_session', JSON.stringify(sessionData));
-                    window.location.href = 'admin/dashboard.html';
-                }
-            }, 500);
-        });
-    </script>
+    <script src="js/login.js"></script>
 </body>
 </html>
