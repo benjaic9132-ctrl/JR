@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JR - Sistema</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="loading" style="display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div style="text-align: center; color: white;">
+            <h1>Cargando JR...</h1>
+            <p>Iniciando sesión automática...</p>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Auto-login directo como admin
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const users = auth.users;
+                const adminUser = users.find(u => u.role === 'admin');
+                
+                if (adminUser) {
+                    const sessionData = {
+                        userId: adminUser.id,
+                        username: adminUser.username,
+                        role: adminUser.role,
+                        name: adminUser.name,
+                        email: adminUser.email,
+                        loginTime: new Date().toISOString(),
+                        token: auth.generateToken()
+                    };
+                    localStorage.setItem('jr_session', JSON.stringify(sessionData));
+                    window.location.href = 'admin/dashboard.html';
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
