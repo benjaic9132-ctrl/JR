@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JR - Dashboard Cliente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            color: #101315;
+        }
+
+        .client-layout {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .navbar-logo {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .content {
+            flex: 1;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 30px;
+        }
+
+        .profile-info h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .profile-info p {
+            color: #687073;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .info-item label {
+            display: block;
+            font-weight: 600;
+            font-size: 12px;
+            color: #687073;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .info-item value {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: #101315;
+            word-break: break-all;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .form-group input {
+            padding: 10px 12px;
+            border: 1px solid #d7d7d7;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-update {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .btn-update:hover {
+            background: #5568d3;
+        }
+
+        .activity-log {
+            list-style: none;
+        }
+
+        .activity-item {
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-text {
+            font-size: 14px;
+        }
+
+        .activity-time {
+            color: #687073;
+            font-size: 12px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #687073;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="client-layout">
+        <nav class="navbar">
+            <div class="navbar-content">
+                <div class="navbar-logo">📱 JR Cliente</div>
+                <div class="navbar-right">
+                    <span id="userGreeting"></span>
+                    <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="content">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-info">
+                        <h1 id="userName">Cargando...</h1>
+                        <p>Cliente JR</p>
+                    </div>
+                    <button class="btn-primary" onclick="alert('Editar perfil - Próximamente')">Editar Perfil</button>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Usuario</label>
+                        <value id="infoUsername">-</value>
+                    </div>
+                    <div class="info-item">
+                        <label>Email</label>
+                        <value id="infoEmail">-</value>
+                    </div>
+                    <div class="info-item">
+                        <label>Registrado</label>
+                        <value id="infoCreated">-</value>
+                    </div>
+                    <div class="info-item">
+                        <label>Estado</label>
+                        <value id="infoStatus">Activo</value>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔐 Cambiar Contraseña</h2>
+                <form class="password-form" id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Contraseña Actual</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Nueva Contraseña</label>
+                        <input type="password" id="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Contraseña</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn-update">Actualizar Contraseña</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>📋 Historial de Accesos</h2>
+                <ul class="activity-log" id="activityLog">
+                    <div class="empty-state">
+                        <p>No hay registros de acceso disponibles</p>
+                    </div>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/utils.js"></script>
+    <script>
+        // Proteger página
+        if (!protectPage('client')) {
+            throw new Error('Acceso denegado');
+        }
+
+        const user = getCurrentUser();
+
+        // Mostrar información del usuario
+        document.getElementById('userGreeting').textContent = `👋 Hola, ${user.name}`;
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('infoUsername').textContent = user.username;
+        document.getElementById('infoEmail').textContent = user.email;
+        document.getElementById('infoCreated').textContent = formatDate(user.loginTime);
+
+        // Manejar cambio de contraseña
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validar contraseña actual
+            const loginResult = auth.validateLogin(user.username, currentPassword);
+            if (!loginResult.success) {
+                showNotification('Contraseña actual incorrecta', 'error');
+                return;
+            }
+
+            // Validar nuevas contraseñas
+            if (newPassword.length < 6) {
+                showNotification('La nueva contraseña debe tener al menos 6 caracteres', 'error');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showNotification('Las contraseñas no coinciden', 'error');
+                return;
+            }
+
+            // Actualizar contraseña
+            const result = auth.updateUser(user.userId, { password: newPassword });
+            if (result.success) {
+                showNotification('Contraseña actualizada correctamente', 'success');
+                document.getElementById('passwordForm').reset();
+            } else {
+                showNotification(result.error, 'error');
+            }
+        });
+    </script>
+</body>
+</html>
